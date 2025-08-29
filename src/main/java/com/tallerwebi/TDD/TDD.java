@@ -10,24 +10,11 @@ public class TDD {
         if(contrasenia == null || contrasenia.isEmpty()){
             return "INVALIDA";
         } else{
-            Matcher buscadorDeLetras = Pattern.compile("[a-zA-Z]{1}").matcher(contrasenia);
-            Matcher buscadorParaCaracteresEspeciales = Pattern.compile("[-_%$?!@]{1}").matcher(contrasenia);
-            Matcher buscadorParaNumeros = Pattern.compile("[0-9]{1}").matcher(contrasenia);
+            int cantidadDeLetras = contadorDeCaracteresBuscados("[a-zA-Z]{1}", contrasenia);
+            int cantidadDeCaracteresEspeciales = contadorDeCaracteresBuscados("[-_%$?!@]{1}", contrasenia);
+            int cantidadDeNumeros = contadorDeCaracteresBuscados("[0-9]{1}", contrasenia);
 
-            int cantidadDeletras = 0;
-            while (buscadorDeLetras.find()) {
-                cantidadDeletras++;
-            }
-            int cantidadDeCaracteresEspeciales = 0;
-            while (buscadorParaCaracteresEspeciales.find()) {
-                cantidadDeCaracteresEspeciales++;
-            }
-            int cantidadDeNumeros = 0;
-            while (buscadorParaNumeros.find()) {
-                cantidadDeNumeros++;
-            }
-
-            if ( contrasenia.length() <= 8 && cantidadDeletras == contrasenia.length() ) {
+            if ( contrasenia.length() <= 8 && cantidadDeLetras == contrasenia.length() ) {
                 return "DEBIL";
             } else if ( cantidadDeCaracteresEspeciales == 1 && cantidadDeNumeros == 1) {
                 return "MEDIANA";
@@ -35,7 +22,16 @@ public class TDD {
                 return "FUERTE";
             }
         }
+    }
 
+    public static int contadorDeCaracteresBuscados(String tipoDeCaracterBuscado, String palabraDondeBuscar) {
+        Matcher buscadorDeCaracteres = Pattern.compile(tipoDeCaracterBuscado).matcher(palabraDondeBuscar);
 
+        int cantidadDeCaracteres = 0;
+        while (buscadorDeCaracteres.find()) {
+            cantidadDeCaracteres++;
+        }
+
+        return cantidadDeCaracteres;
     }
 }
